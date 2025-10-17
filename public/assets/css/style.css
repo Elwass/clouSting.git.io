@@ -1,0 +1,49 @@
+body {
+    background-color: #f8f9fc;
+    color: #1f2937;
+}
+.hero-section {
+    background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+    color: white;
+    padding: 140px 0 120px;
+}
+.hero-section .btn-primary {
+    background-color: #ff9800;
+    border: none;
+    padding: 12px 28px;
+    font-weight: 600;
+}
+.section-title {
+    font-weight: 700;
+    margin-bottom: 1rem;
+}
+.card-feature {
+    border-radius: 16px;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    border: none;
+}
+.card-feature:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 20px 45px rgba(15, 23, 42, 0.12);
+}
+.price-card {
+    border: 1px solid #e5e7eb;
+    border-radius: 16px;
+    padding: 32px 24px;
+    background: white;
+    transition: transform 0.3s ease;
+}
+.price-card:hover {
+    transform: translateY(-5px);
+}
+.price-card.featured {
+    border: 2px solid #2a5298;
+    box-shadow: 0 20px 45px rgba(37, 99, 235, 0.15);
+}
+.dashboard-wrapper {
+    min-height: 100vh;
+    background: #eef2ff;
+}
+.dashboard-content {
+    padding: 40px;
+}
