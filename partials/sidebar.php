@@ -8,6 +8,7 @@
         <li><a href="/admin/paket.php" class="nav-link text-white"><i class="fas fa-box-open me-2"></i>Paket Hosting</a></li>
         <li><a href="/admin/pelanggan.php" class="nav-link text-white"><i class="fas fa-users me-2"></i>Pelanggan</a></li>
         <li><a href="/admin/pesanan.php" class="nav-link text-white"><i class="fas fa-shopping-cart me-2"></i>Pesanan</a></li>
+        <li><a href="/admin/pembayaran.php" class="nav-link text-white"><i class="fas fa-receipt me-2"></i>Pembayaran</a></li>
     </ul>
     <hr>
     <div>

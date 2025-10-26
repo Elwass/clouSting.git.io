@@ -73,9 +73,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if (empty($errors)) {
         $customerId = $_SESSION['customer_id'];
         $projectPathDb = mysqli_real_escape_string($conn, $projectPath);
-        $insert = mysqli_query($conn, "INSERT INTO pesanan (user_id, paket_id, domain, metode_pembayaran, project_file, status, tanggal_pesanan) VALUES ($customerId, $paketId, '$domain', '$metode', '$projectPathDb', 'menunggu', NOW())");
+        $insert = mysqli_query($conn, "INSERT INTO pesanan (user_id, paket_id, domain, metode_pembayaran, project_file, status, tanggal_pesanan) VALUES ($customerId, $paketId, '$domain', '$metode', '$projectPathDb', 'pending', NOW())");
         if ($insert) {
-            $success = 'Pesanan berhasil dibuat. Tim kami akan segera memprosesnya.';
+            $success = 'Pesanan berhasil dibuat. Silakan lanjutkan pembayaran melalui tombol "Bayar Sekarang" di dashboard Anda.';
             $_POST = [];
         } else {
             if ($projectPath !== '') {

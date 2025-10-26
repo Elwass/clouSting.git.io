@@ -10,8 +10,8 @@ if (empty($_SESSION['admin_id'])) {
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $id = (int)($_POST['id'] ?? 0);
-    $status = mysqli_real_escape_string($conn, trim($_POST['status'] ?? 'menunggu'));
-    $statusAllow = ['menunggu', 'aktif', 'selesai'];
+    $status = mysqli_real_escape_string($conn, trim($_POST['status'] ?? 'pending'));
+    $statusAllow = ['pending', 'paid', 'failed', 'aktif', 'selesai'];
     if ($id > 0 && in_array($status, $statusAllow, true)) {
         mysqli_query($conn, "UPDATE pesanan SET status='$status' WHERE id=$id");
     }
@@ -76,15 +76,34 @@ $orders = mysqli_query($conn, "SELECT p.*, u.nama, u.email, pk.nama_paket, pk.ha
                                         <td><?php echo htmlspecialchars($order['metode_pembayaran']); ?></td>
                                         <td>Rp <?php echo number_format($order['harga'], 0, ',', '.'); ?></td>
                                         <td>
-                                            <form method="post" class="d-flex align-items-center gap-2">
-                                                <input type="hidden" name="id" value="<?php echo $order['id']; ?>">
-                                                <select name="status" class="form-select form-select-sm">
-                                                    <?php foreach (['menunggu' => 'Menunggu', 'aktif' => 'Aktif', 'selesai' => 'Selesai'] as $key => $label): ?>
-                                                        <option value="<?php echo $key; ?>" <?php echo $order['status'] === $key ? 'selected' : ''; ?>><?php echo $label; ?></option>
-                                                    <?php endforeach; ?>
-                                                </select>
-                                                <button type="submit" class="btn btn-sm btn-primary">Update</button>
-                                            </form>
+                                            <?php
+                                            $statusMap = [
+                                                'pending' => ['badge' => 'warning text-dark', 'label' => 'Pending'],
+                                                'paid' => ['badge' => 'primary', 'label' => 'Sudah Dibayar'],
+                                                'failed' => ['badge' => 'danger', 'label' => 'Gagal'],
+                                                'aktif' => ['badge' => 'success', 'label' => 'Aktif'],
+                                                'selesai' => ['badge' => 'secondary', 'label' => 'Selesai'],
+                                            ];
+                                            $statusInfo = $statusMap[$order['status']] ?? ['badge' => 'secondary', 'label' => ucfirst($order['status'])];
+                                            ?>
+                                            <div class="d-flex flex-column gap-2">
+                                                <span class="badge bg-<?php echo $statusInfo['badge']; ?>"><?php echo $statusInfo['label']; ?></span>
+                                                <form method="post" class="d-flex align-items-center gap-2">
+                                                    <input type="hidden" name="id" value="<?php echo $order['id']; ?>">
+                                                    <select name="status" class="form-select form-select-sm">
+                                                        <?php foreach ([
+                                                            'pending' => 'Pending',
+                                                            'paid' => 'Sudah Dibayar',
+                                                            'failed' => 'Gagal',
+                                                            'aktif' => 'Aktif',
+                                                            'selesai' => 'Selesai'
+                                                        ] as $key => $label): ?>
+                                                            <option value="<?php echo $key; ?>" <?php echo $order['status'] === $key ? 'selected' : ''; ?>><?php echo $label; ?></option>
+                                                        <?php endforeach; ?>
+                                                    </select>
+                                                    <button type="submit" class="btn btn-sm btn-primary">Update</button>
+                                                </form>
+                                            </div>
                                         </td>
                                         <td><?php echo date('d M Y H:i', strtotime($order['tanggal_pesanan'])); ?></td>
                                         <td>

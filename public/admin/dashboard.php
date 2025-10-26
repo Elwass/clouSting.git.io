@@ -10,8 +10,9 @@ if (empty($_SESSION['admin_id'])) {
 
 $totalCustomer = mysqli_fetch_assoc(mysqli_query($conn, "SELECT COUNT(*) as total FROM users WHERE role='customer'"))['total'];
 $totalOrders = mysqli_fetch_assoc(mysqli_query($conn, "SELECT COUNT(*) as total FROM pesanan"))['total'];
-$totalRevenue = mysqli_fetch_assoc(mysqli_query($conn, "SELECT SUM(pk.harga) as total FROM pesanan p JOIN paket_hosting pk ON p.paket_id = pk.id WHERE p.status IN ('aktif', 'selesai')"));
-$totalRevenueValue = $totalRevenue['total'] ?? 0;
+$pendingPayments = mysqli_fetch_assoc(mysqli_query($conn, "SELECT COUNT(*) as total FROM pesanan WHERE status='pending'"))['total'];
+$paidRevenue = mysqli_fetch_assoc(mysqli_query($conn, "SELECT SUM(gross_amount) as total FROM transaksi WHERE transaction_status IN ('capture','settlement')"));
+$paidRevenueValue = $paidRevenue['total'] ?? 0;
 $latestOrders = mysqli_query($conn, "SELECT p.*, u.nama, pk.nama_paket FROM pesanan p JOIN users u ON p.user_id = u.id JOIN paket_hosting pk ON p.paket_id = pk.id ORDER BY p.tanggal_pesanan DESC LIMIT 5");
 ?>
 <?php require_once __DIR__ . '/../../partials/header.php'; ?>
@@ -41,8 +42,16 @@ $latestOrders = mysqli_query($conn, "SELECT p.*, u.nama, pk.nama_paket FROM pesa
                 <div class="col-md-4">
                     <div class="card border-0 shadow-sm">
                         <div class="card-body">
-                            <h6 class="text-muted">Pendapatan Aktif/Selesai</h6>
-                            <h3 class="fw-bold">Rp <?php echo number_format($totalRevenueValue, 0, ',', '.'); ?></h3>
+                            <h6 class="text-muted">Pembayaran Pending</h6>
+                            <h3 class="fw-bold"><?php echo (int)$pendingPayments; ?></h3>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="card border-0 shadow-sm">
+                        <div class="card-body">
+                            <h6 class="text-muted">Pembayaran Terkonfirmasi</h6>
+                            <h3 class="fw-bold">Rp <?php echo number_format($paidRevenueValue, 0, ',', '.'); ?></h3>
                         </div>
                     </div>
                 </div>
@@ -68,7 +77,17 @@ $latestOrders = mysqli_query($conn, "SELECT p.*, u.nama, pk.nama_paket FROM pesa
                                             <td><?php echo htmlspecialchars($row['nama']); ?></td>
                                             <td><?php echo htmlspecialchars($row['nama_paket']); ?></td>
                                             <td><?php echo htmlspecialchars($row['domain']); ?></td>
-                                            <td><span class="badge bg-<?php echo $row['status'] === 'aktif' ? 'success' : ($row['status'] === 'menunggu' ? 'warning text-dark' : 'secondary'); ?>"><?php echo ucfirst($row['status']); ?></span></td>
+                                            <?php
+                                            $statusMap = [
+                                                'pending' => ['badge' => 'warning text-dark', 'label' => 'Pending'],
+                                                'paid' => ['badge' => 'primary', 'label' => 'Sudah Dibayar'],
+                                                'failed' => ['badge' => 'danger', 'label' => 'Gagal'],
+                                                'aktif' => ['badge' => 'success', 'label' => 'Aktif'],
+                                                'selesai' => ['badge' => 'secondary', 'label' => 'Selesai'],
+                                            ];
+                                            $statusInfo = $statusMap[$row['status']] ?? ['badge' => 'secondary', 'label' => ucfirst($row['status'])];
+                                            ?>
+                                            <td><span class="badge bg-<?php echo $statusInfo['badge']; ?>"><?php echo $statusInfo['label']; ?></span></td>
                                             <td><?php echo date('d M Y', strtotime($row['tanggal_pesanan'])); ?></td>
                                         </tr>
                                     <?php endwhile; ?>

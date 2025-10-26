@@ -45,7 +45,17 @@ $query = mysqli_query($conn, "SELECT p.*, pk.nama_paket, pk.harga FROM pesanan p
                                     <td><?php echo htmlspecialchars($row['domain']); ?></td>
                                     <td>Rp <?php echo number_format($row['harga'], 0, ',', '.'); ?></td>
                                     <td><?php echo htmlspecialchars($row['metode_pembayaran']); ?></td>
-                                    <td><span class="badge bg-<?php echo $row['status'] === 'aktif' ? 'success' : ($row['status'] === 'menunggu' ? 'warning text-dark' : 'secondary'); ?>"><?php echo ucfirst($row['status']); ?></span></td>
+                                    <?php
+                                    $statusMap = [
+                                        'pending' => ['badge' => 'warning text-dark', 'label' => 'Pending'],
+                                        'paid' => ['badge' => 'primary', 'label' => 'Sudah Dibayar'],
+                                        'failed' => ['badge' => 'danger', 'label' => 'Gagal'],
+                                        'aktif' => ['badge' => 'success', 'label' => 'Aktif'],
+                                        'selesai' => ['badge' => 'secondary', 'label' => 'Selesai'],
+                                    ];
+                                    $statusInfo = $statusMap[$row['status']] ?? ['badge' => 'secondary', 'label' => ucfirst($row['status'])];
+                                    ?>
+                                    <td><span class="badge bg-<?php echo $statusInfo['badge']; ?>"><?php echo $statusInfo['label']; ?></span></td>
                                     <td><?php echo date('d M Y', strtotime($row['tanggal_pesanan'])); ?></td>
                                     <td>
                                         <?php if (!empty($row['project_file'])): ?>

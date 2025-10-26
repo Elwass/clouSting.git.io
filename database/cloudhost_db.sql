@@ -26,10 +26,21 @@ CREATE TABLE IF NOT EXISTS pesanan (
     domain VARCHAR(150) NOT NULL,
     metode_pembayaran VARCHAR(60) NOT NULL,
     project_file VARCHAR(255) DEFAULT NULL,
-    status ENUM('menunggu','aktif','selesai') DEFAULT 'menunggu',
+    status ENUM('pending','paid','failed','aktif','selesai') DEFAULT 'pending',
     tanggal_pesanan DATETIME DEFAULT CURRENT_TIMESTAMP,
     CONSTRAINT fk_pesanan_user FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE,
     CONSTRAINT fk_pesanan_paket FOREIGN KEY (paket_id) REFERENCES paket_hosting(id) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+CREATE TABLE IF NOT EXISTS transaksi (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    pesanan_id INT NOT NULL,
+    order_id VARCHAR(100) UNIQUE,
+    gross_amount DECIMAL(12,2),
+    payment_type VARCHAR(50),
+    transaction_status VARCHAR(50),
+    transaction_time TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    CONSTRAINT fk_transaksi_pesanan FOREIGN KEY (pesanan_id) REFERENCES pesanan(id) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 INSERT INTO users (nama, email, password, role) VALUES
@@ -45,4 +56,7 @@ INSERT INTO paket_hosting (nama_paket, deskripsi, harga, fitur) VALUES
 INSERT INTO pesanan (user_id, paket_id, domain, metode_pembayaran, project_file, status, tanggal_pesanan) VALUES
 (2, 2, 'tokobudi.com', 'Transfer Bank', NULL, 'aktif', '2024-06-10 09:00:00'),
 (3, 1, 'blog-sinta.id', 'E-Wallet', NULL, 'selesai', '2024-05-22 14:30:00'),
-(2, 3, 'cloudbudi.co.id', 'Kartu Kredit', NULL, 'menunggu', '2024-07-01 10:15:00');
+(2, 3, 'cloudbudi.co.id', 'Kartu Kredit', NULL, 'pending', '2024-07-01 10:15:00');
+
+INSERT INTO transaksi (pesanan_id, order_id, gross_amount, payment_type, transaction_status, transaction_time) VALUES
+(3, 'CLOUDHOST-3-123456', 199000.00, 'credit_card', 'pending', '2024-07-01 10:16:00');

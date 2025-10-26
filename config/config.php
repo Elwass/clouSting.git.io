@@ -1,4 +1,8 @@
 <?php
+require_once __DIR__ . '/../vendor/midtrans/Midtrans.php';
+
+use Midtrans\Config as MidtransConfig;
+
 $host = 'localhost';
 $user = 'root';
 $password = '';
@@ -19,4 +23,15 @@ if (!is_dir($projectUploadDir)) {
 
 define('PROJECT_UPLOAD_DIR', $projectUploadDir);
 define('PROJECT_UPLOAD_URI', '/uploads/projects');
-?>
+
+$midtransServerKey = getenv('MIDTRANS_SERVER_KEY') ?: 'SB-Mid-server-yourkey';
+$midtransClientKey = getenv('MIDTRANS_CLIENT_KEY') ?: 'SB-Mid-client-yourkey';
+$midtransIsProduction = getenv('MIDTRANS_IS_PRODUCTION') ? filter_var(getenv('MIDTRANS_IS_PRODUCTION'), FILTER_VALIDATE_BOOLEAN) : false;
+
+define('MIDTRANS_SERVER_KEY', $midtransServerKey);
+define('MIDTRANS_CLIENT_KEY', $midtransClientKey);
+define('MIDTRANS_IS_PRODUCTION', $midtransIsProduction);
+
+MidtransConfig::$serverKey = MIDTRANS_SERVER_KEY;
+MidtransConfig::$clientKey = MIDTRANS_CLIENT_KEY;
+MidtransConfig::$isProduction = MIDTRANS_IS_PRODUCTION;
