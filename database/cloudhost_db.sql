@@ -25,6 +25,7 @@ CREATE TABLE IF NOT EXISTS pesanan (
     paket_id INT NOT NULL,
     domain VARCHAR(150) NOT NULL,
     metode_pembayaran VARCHAR(60) NOT NULL,
+    project_file VARCHAR(255) DEFAULT NULL,
     status ENUM('menunggu','aktif','selesai') DEFAULT 'menunggu',
     tanggal_pesanan DATETIME DEFAULT CURRENT_TIMESTAMP,
     CONSTRAINT fk_pesanan_user FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE,
@@ -41,7 +42,7 @@ INSERT INTO paket_hosting (nama_paket, deskripsi, harga, fitur) VALUES
 ('Business', 'Solusi optimal untuk UMKM dengan traffic menengah.', 99000, '5 Website\n50 GB SSD Storage\nUnlimited Email\nBackup Harian'),
 ('Premium', 'Performa maksimal untuk website bisnis dan e-commerce.', 199000, 'Unlimited Website\nNVMe SSD Storage\nPrioritas Support\nCDN & Web Firewall');
 
-INSERT INTO pesanan (user_id, paket_id, domain, metode_pembayaran, status, tanggal_pesanan) VALUES
-(2, 2, 'tokobudi.com', 'Transfer Bank', 'aktif', '2024-06-10 09:00:00'),
-(3, 1, 'blog-sinta.id', 'E-Wallet', 'selesai', '2024-05-22 14:30:00'),
-(2, 3, 'cloudbudi.co.id', 'Kartu Kredit', 'menunggu', '2024-07-01 10:15:00');
+INSERT INTO pesanan (user_id, paket_id, domain, metode_pembayaran, project_file, status, tanggal_pesanan) VALUES
+(2, 2, 'tokobudi.com', 'Transfer Bank', NULL, 'aktif', '2024-06-10 09:00:00'),
+(3, 1, 'blog-sinta.id', 'E-Wallet', NULL, 'selesai', '2024-05-22 14:30:00'),
+(2, 3, 'cloudbudi.co.id', 'Kartu Kredit', NULL, 'menunggu', '2024-07-01 10:15:00');

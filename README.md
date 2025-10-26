@@ -11,8 +11,8 @@ Proyek ini adalah aplikasi website fullstack sederhana berbasis PHP native denga
 ### Customer
 - Registrasi dan login pelanggan menggunakan session.
 - Dashboard pelanggan dengan ringkasan pesanan aktif.
-- Form pemesanan hosting baru.
-- Riwayat pesanan dengan status (menunggu, aktif, selesai).
+- Form pemesanan hosting baru lengkap dengan unggah folder project dalam format ZIP (maks. 10 MB).
+- Riwayat pesanan dengan status (menunggu, aktif, selesai) dan tautan unduhan file project.
 
 ### Admin
 - Login admin menggunakan session.
@@ -23,12 +23,16 @@ Proyek ini adalah aplikasi website fullstack sederhana berbasis PHP native denga
 ## Struktur Folder
 ```
 cloudhost/
-├── admin/
 ├── config/
-├── customer/
 ├── database/
 ├── partials/
 └── public/
+    ├── admin/
+    ├── assets/
+    ├── customer/
+    ├── about.php
+    ├── contact.php
+    └── index.php
 ```
 
 ## Persiapan Database
@@ -38,10 +42,15 @@ cloudhost/
    - Customer: `budi@pelanggan.id` / `customer123`
 
 ## Konfigurasi
-Sesuaikan koneksi database pada `config/config.php` jika diperlukan.
+Sesuaikan koneksi database pada `config/config.php` jika diperlukan. File ini juga akan membuat folder `public/uploads/projects` secara otomatis untuk menyimpan arsip project yang diunggah customer. Pastikan server memiliki izin tulis pada direktori tersebut.
+
+### Batasan Unggah Project
+- Format file wajib `.zip`.
+- Ukuran maksimal 10 MB (sesuaikan dengan `php.ini` apabila diperlukan).
+- Arsip yang diunggah akan tersedia bagi Admin dan customer melalui tautan unduhan pada tabel pesanan.
 
 ## Menjalankan Aplikasi
-Gunakan server PHP bawaan:
+Gunakan server PHP bawaan dengan root direktori `public/`:
 ```bash
 php -S localhost:8000 -t public
 ```
