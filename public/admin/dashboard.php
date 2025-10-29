@@ -11,6 +11,7 @@ if (empty($_SESSION['admin_id'])) {
 $totalCustomer = mysqli_fetch_assoc(mysqli_query($conn, "SELECT COUNT(*) as total FROM users WHERE role='customer'"))['total'];
 $totalOrders = mysqli_fetch_assoc(mysqli_query($conn, "SELECT COUNT(*) as total FROM pesanan"))['total'];
 $pendingPayments = mysqli_fetch_assoc(mysqli_query($conn, "SELECT COUNT(*) as total FROM pesanan WHERE status='pending'"))['total'];
+$activeDiscounts = mysqli_fetch_assoc(mysqli_query($conn, "SELECT COUNT(*) as total FROM paket_diskon WHERE status='aktif'"))['total'];
 $paidRevenue = mysqli_fetch_assoc(mysqli_query($conn, "SELECT SUM(gross_amount) as total FROM transaksi WHERE transaction_status IN ('capture','settlement')"));
 $paidRevenueValue = $paidRevenue['total'] ?? 0;
 $latestOrders = mysqli_query($conn, "SELECT p.*, u.nama, pk.nama_paket FROM pesanan p JOIN users u ON p.user_id = u.id JOIN paket_hosting pk ON p.paket_id = pk.id ORDER BY p.tanggal_pesanan DESC LIMIT 5");
@@ -23,7 +24,7 @@ $latestOrders = mysqli_query($conn, "SELECT p.*, u.nama, pk.nama_paket FROM pesa
             <h2 class="fw-bold">Dashboard Admin</h2>
             <p class="text-muted">Ringkasan aktivitas CloudHost.</p>
             <div class="row g-4 mt-2">
-                <div class="col-md-4">
+                <div class="col-md-6 col-lg-3">
                     <div class="card border-0 shadow-sm">
                         <div class="card-body">
                             <h6 class="text-muted">Total Pelanggan</h6>
@@ -31,7 +32,7 @@ $latestOrders = mysqli_query($conn, "SELECT p.*, u.nama, pk.nama_paket FROM pesa
                         </div>
                     </div>
                 </div>
-                <div class="col-md-4">
+                <div class="col-md-6 col-lg-3">
                     <div class="card border-0 shadow-sm">
                         <div class="card-body">
                             <h6 class="text-muted">Total Pesanan</h6>
@@ -39,7 +40,7 @@ $latestOrders = mysqli_query($conn, "SELECT p.*, u.nama, pk.nama_paket FROM pesa
                         </div>
                     </div>
                 </div>
-                <div class="col-md-4">
+                <div class="col-md-6 col-lg-3">
                     <div class="card border-0 shadow-sm">
                         <div class="card-body">
                             <h6 class="text-muted">Pembayaran Pending</h6>
@@ -47,11 +48,19 @@ $latestOrders = mysqli_query($conn, "SELECT p.*, u.nama, pk.nama_paket FROM pesa
                         </div>
                     </div>
                 </div>
-                <div class="col-md-4">
+                <div class="col-md-6 col-lg-3">
                     <div class="card border-0 shadow-sm">
                         <div class="card-body">
                             <h6 class="text-muted">Pembayaran Terkonfirmasi</h6>
                             <h3 class="fw-bold">Rp <?php echo number_format($paidRevenueValue, 0, ',', '.'); ?></h3>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6 col-lg-3">
+                    <div class="card border-0 shadow-sm">
+                        <div class="card-body">
+                            <h6 class="text-muted">Paket Diskon Aktif</h6>
+                            <h3 class="fw-bold"><?php echo (int)$activeDiscounts; ?></h3>
                         </div>
                     </div>
                 </div>

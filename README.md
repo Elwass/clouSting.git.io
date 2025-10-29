@@ -7,6 +7,7 @@ Proyek ini adalah aplikasi website fullstack sederhana berbasis PHP native denga
 ### Publik
 - Landing page modern dengan hero, fitur, paket harga, dan CTA.
 - Halaman Tentang Kami dan Kontak.
+- Banner promo di bawah navbar dengan countdown, modal diskon, dan tombol menuju halaman paket diskon multibahasa.
 
 ### Customer
 - Registrasi dan login pelanggan menggunakan session.
@@ -18,6 +19,7 @@ Proyek ini adalah aplikasi website fullstack sederhana berbasis PHP native denga
 - Login admin menggunakan session.
 - Dashboard admin dengan ringkasan pelanggan, pesanan, pembayaran pending, serta pendapatan yang sudah terkonfirmasi.
 - CRUD paket hosting.
+- CRUD paket diskon untuk mengatur penawaran promo yang tampil di landing page.
 - Manajemen pelanggan dan pesanan termasuk perubahan status.
 - Halaman monitoring transaksi Midtrans untuk memantau order ID, metode pembayaran, dan status pembayaran.
 
@@ -31,6 +33,7 @@ cloudhost/
     ├── admin/
     ├── assets/
     ├── customer/
+    ├── paket-diskon.php
     ├── about.php
     ├── contact.php
     └── index.php
@@ -54,6 +57,9 @@ Sesuaikan koneksi database pada `config/config.php` jika diperlukan. File ini ju
 - Format file wajib `.zip`.
 - Ukuran maksimal 10 MB (sesuaikan dengan `php.ini` apabila diperlukan).
 - Arsip yang diunggah akan tersedia bagi Admin dan customer melalui tautan unduhan pada tabel pesanan.
+
+- Tabel baru `paket_diskon` menyimpan promo harga khusus yang dapat diatur dari panel admin. Halaman publik `/paket-diskon.php`
+  akan menampilkan seluruh paket berstatus aktif lengkap dengan harga asli, harga promo, dan periode berlaku.
 
 ## Menjalankan Aplikasi
 Gunakan server PHP bawaan dengan root direktori `public/`:

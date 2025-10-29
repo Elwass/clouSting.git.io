@@ -35,12 +35,20 @@ $languages = [
         'promo_headline' => 'Black Friday! Gratis Migrasi & Domain.',
         'promo_subheadline' => 'Diskon 60% untuk semua paket tahunan.',
         'promo_countdown_label' => 'Berakhir dalam',
+        'promo_button' => 'Lihat Paket Diskon',
         'modal_title' => 'Bingung pilih paket?',
         'modal_description' => 'Hubungi Sales Assistant kami untuk rekomendasi paket sesuai kebutuhan bisnis Anda.',
         'modal_contact' => '+62 812 9007 7322',
         'modal_cta' => 'Jadwalkan Konsultasi',
         'modal_note' => 'Tim kami siap membantu 24/7.',
-        'modal_bonus' => 'Extra 10% off untuk konsultasi hari ini!'
+        'modal_bonus' => 'Extra 10% off untuk konsultasi hari ini!',
+        'discount_page_title' => 'Paket Diskon Spesial',
+        'discount_page_subtitle' => 'Jangan lewatkan penawaran terbatas dengan harga terbaik untuk performa maksimal.',
+        'discount_original_price' => 'Harga Normal',
+        'discount_price_label' => 'Harga Diskon',
+        'discount_action' => 'Pesan Paket Ini',
+        'discount_period' => 'Berlaku sampai',
+        'discount_empty' => 'Belum ada paket diskon aktif untuk saat ini.'
     ],
     'en' => [
         'language_name' => 'English',
@@ -73,12 +81,20 @@ $languages = [
         'promo_headline' => 'Black Friday! Free Migration & Domain.',
         'promo_subheadline' => 'Save 60% on every annual plan.',
         'promo_countdown_label' => 'Ends in',
+        'promo_button' => 'View Discount Plans',
         'modal_title' => 'Need help choosing?',
         'modal_description' => 'Talk with our Sales Assistant for a tailored hosting recommendation.',
         'modal_contact' => '+62 812 9007 7322',
         'modal_cta' => 'Talk to Sales',
         'modal_note' => 'Our experts are on call 24/7.',
-        'modal_bonus' => 'Extra 10% off when you consult today!'
+        'modal_bonus' => 'Extra 10% off when you consult today!',
+        'discount_page_title' => 'Limited Discount Plans',
+        'discount_page_subtitle' => 'Grab our limited-time offers to unlock peak performance for less.',
+        'discount_original_price' => 'Regular Price',
+        'discount_price_label' => 'Promo Price',
+        'discount_action' => 'Order This Plan',
+        'discount_period' => 'Valid until',
+        'discount_empty' => 'No active discount plans at the moment.'
     ],
     'nl' => [
         'language_name' => 'Nederlands',
@@ -111,12 +127,20 @@ $languages = [
         'promo_headline' => 'Black Friday! Gratis migratie & domein.',
         'promo_subheadline' => '60% korting op alle jaarplannen.',
         'promo_countdown_label' => 'Eindigt over',
+        'promo_button' => 'Bekijk kortingspakketten',
         'modal_title' => 'Twijfelt u over een pakket?',
         'modal_description' => 'Neem contact op met onze sales assistent voor een hostingadvies op maat.',
         'modal_contact' => '+62 812 9007 7322',
         'modal_cta' => 'Plan een gesprek',
         'modal_note' => 'Ons team staat 24/7 voor u klaar.',
-        'modal_bonus' => 'Extra 10% korting bij een adviesgesprek vandaag!'
+        'modal_bonus' => 'Extra 10% korting bij een adviesgesprek vandaag!',
+        'discount_page_title' => 'Speciale Kortingspakketten',
+        'discount_page_subtitle' => 'Profiteer van onze tijdelijke aanbiedingen voor maximale prestaties.',
+        'discount_original_price' => 'Normale prijs',
+        'discount_price_label' => 'Actieprijs',
+        'discount_action' => 'Bestel dit pakket',
+        'discount_period' => 'Geldig tot',
+        'discount_empty' => 'Momenteel zijn er geen actieve kortingspakketten.'
     ],
 ];
 
@@ -153,15 +177,3 @@ $promoDeadlineIso = (new DateTimeImmutable('+3 days'))->format('c');
     <script src="https://kit.fontawesome.com/a2e0f6d66a.js" crossorigin="anonymous" defer></script>
 </head>
 <body style="font-family: 'Poppins', sans-serif;">
-    <div class="promo-banner text-white" data-deadline="<?php echo htmlspecialchars($promoDeadlineIso); ?>">
-        <div class="container d-flex flex-column flex-lg-row justify-content-lg-between align-items-lg-center gap-2">
-            <div class="promo-text fw-semibold text-center text-lg-start">
-                <span class="me-1"><?php echo htmlspecialchars($t['promo_headline']); ?></span>
-                <span class="opacity-75"><?php echo htmlspecialchars($t['promo_subheadline']); ?></span>
-            </div>
-            <div class="d-flex align-items-center justify-content-center gap-2">
-                <span class="countdown-label text-uppercase small fw-semibold"><?php echo htmlspecialchars($t['promo_countdown_label']); ?></span>
-                <span id="promo-countdown" class="countdown-badge" data-deadline="<?php echo htmlspecialchars($promoDeadlineIso); ?>">--</span>
-            </div>
-        </div>
-    </div>

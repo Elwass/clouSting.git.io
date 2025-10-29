@@ -33,3 +33,24 @@
         </div>
     </div>
 </nav>
+<div class="promo-banner text-white" data-deadline="<?php echo htmlspecialchars($promoDeadlineIso); ?>">
+    <div class="container d-flex flex-column flex-lg-row justify-content-lg-between align-items-lg-center gap-3 py-2">
+        <div class="promo-text fw-semibold text-center text-lg-start">
+            <span class="me-1"><?php echo htmlspecialchars($t['promo_headline']); ?></span>
+            <span class="opacity-75"><?php echo htmlspecialchars($t['promo_subheadline']); ?></span>
+        </div>
+        <div class="d-flex flex-column flex-lg-row align-items-center gap-2">
+            <div class="d-flex align-items-center gap-2">
+                <span class="countdown-label text-uppercase small fw-semibold"><?php echo htmlspecialchars($t['promo_countdown_label']); ?></span>
+                <span id="promo-countdown" class="countdown-badge" data-deadline="<?php echo htmlspecialchars($promoDeadlineIso); ?>">--</span>
+            </div>
+            <?php
+            $discountUrl = '/paket-diskon.php';
+            if ($currentLang !== 'id') {
+                $discountUrl .= '?lang=' . urlencode($currentLang);
+            }
+            ?>
+            <a class="btn btn-warning fw-semibold text-dark" href="<?php echo htmlspecialchars($discountUrl); ?>"><?php echo htmlspecialchars($t['promo_button']); ?></a>
+        </div>
+    </div>
+</div>

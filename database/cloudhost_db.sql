@@ -19,6 +19,18 @@ CREATE TABLE IF NOT EXISTS paket_hosting (
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
+CREATE TABLE IF NOT EXISTS paket_diskon (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    nama_paket VARCHAR(120) NOT NULL,
+    deskripsi TEXT,
+    harga_normal DECIMAL(12,2) NOT NULL,
+    harga_diskon DECIMAL(12,2) NOT NULL,
+    tanggal_mulai DATE DEFAULT NULL,
+    tanggal_selesai DATE DEFAULT NULL,
+    status ENUM('draft','aktif') DEFAULT 'aktif',
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
 CREATE TABLE IF NOT EXISTS pesanan (
     id INT AUTO_INCREMENT PRIMARY KEY,
     user_id INT NOT NULL,
@@ -52,6 +64,10 @@ INSERT INTO paket_hosting (nama_paket, deskripsi, harga, fitur) VALUES
 ('Starter', 'Cocok untuk website personal dan portofolio.', 49000, '1 Website\n10 GB SSD Storage\nUnlimited Bandwidth\nGratis SSL'),
 ('Business', 'Solusi optimal untuk UMKM dengan traffic menengah.', 99000, '5 Website\n50 GB SSD Storage\nUnlimited Email\nBackup Harian'),
 ('Premium', 'Performa maksimal untuk website bisnis dan e-commerce.', 199000, 'Unlimited Website\nNVMe SSD Storage\nPrioritas Support\nCDN & Web Firewall');
+
+INSERT INTO paket_diskon (nama_paket, deskripsi, harga_normal, harga_diskon, tanggal_mulai, tanggal_selesai, status) VALUES
+('Starter Flash Sale', 'Diskon spesial untuk pelanggan baru CloudHost paket Starter.', 49000.00, 35000.00, CURDATE(), DATE_ADD(CURDATE(), INTERVAL 7 DAY), 'aktif'),
+('Business Annual Deal', 'Hemat besar untuk langganan tahunan paket Business.', 1188000.00, 829000.00, CURDATE(), DATE_ADD(CURDATE(), INTERVAL 30 DAY), 'aktif');
 
 INSERT INTO pesanan (user_id, paket_id, domain, metode_pembayaran, project_file, status, tanggal_pesanan) VALUES
 (2, 2, 'tokobudi.com', 'Transfer Bank', NULL, 'aktif', '2024-06-10 09:00:00'),
