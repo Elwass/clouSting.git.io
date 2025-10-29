@@ -25,5 +25,33 @@
         <div class="text-center mt-4 small">&copy; <?php echo date('Y'); ?> CloudHost. All rights reserved.</div>
     </div>
 </footer>
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const countdownElement = document.getElementById('promo-countdown');
+        if (countdownElement) {
+            const deadlineAttribute = countdownElement.getAttribute('data-deadline');
+            const deadline = deadlineAttribute ? new Date(deadlineAttribute) : null;
+            if (deadline instanceof Date && !isNaN(deadline)) {
+                const updateCountdown = () => {
+                    const now = new Date();
+                    const diff = deadline.getTime() - now.getTime();
+                    if (diff <= 0) {
+                        countdownElement.textContent = '00h : 00m : 00s';
+                        return;
+                    }
+                    const totalSeconds = Math.floor(diff / 1000);
+                    const days = Math.floor(totalSeconds / 86400);
+                    const hours = Math.floor((totalSeconds % 86400) / 3600);
+                    const minutes = Math.floor((totalSeconds % 3600) / 60);
+                    const seconds = totalSeconds % 60;
+                    const totalHours = days * 24 + hours;
+                    countdownElement.textContent = `${String(totalHours).padStart(2, '0')}h : ${String(minutes).padStart(2, '0')}m : ${String(seconds).padStart(2, '0')}s`;
+                };
+                updateCountdown();
+                setInterval(updateCountdown, 1000);
+            }
+        }
+    });
+</script>
 </body>
 </html>
